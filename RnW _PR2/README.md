@@ -414,13 +414,6 @@ jupyter nbconvert --to html DL_PR2.ipynb
 - The results shown above are from the saved notebook run. A new training run may produce different values.
 - This project is intended for educational purposes and should not be used for real hiring, lending, or eligibility decisions.
 
-## 🎥 Project Video
-
-**Project Explanation Video:**
-
-Add your Google Drive link with "Anyone with the link" access or an unlisted YouTube URL after recording the required 5–10 minute face-and-screen explanation.
-
-**Video Link:** [Add your video link here]
 
 ## 🎯 Conclusion
 
