@@ -1,153 +1,610 @@
-# Classical Image Processing to Real-Time Deep Learning Object Detection Pipeline (CV PR 3)
+# Computer Vision: Classical Image Processing to Real-Time Object Detection
 
-**Red & White Skill Education — Deep Learning Practical 3**  
-*Integrated Computer Vision Pipeline: Classical Morphology, Bitwise Logic, Histograms, YuNet Face Detection, and YOLOv8 Object Detection*
+<p align="center">
+  <strong>OpenCV | YuNet | YOLOv8 | Deep Learning | Real-Time Computer Vision</strong>
+</p>
 
----
-
-## 📌 Project Overview
-This project presents an end-to-end computer vision pipeline bridging classical pixel-level image processing techniques with modern deep-learning-based detectors. Designed for resource-efficient smart surveillance, workplace monitoring, and privacy filtering, the system combines lightweight morphological cleaning and bitwise region-of-interest extraction with OpenCV's bundled YuNet face detector and Ultralytics YOLOv8-Nano object detector on custom realistic datasets and live laptop camera streams.
-
----
-
-## 🎥 Video Explanation & Live Demonstration
-- **Video Title**: `CV_PR3_StudentName_GRID.mp4`
-- **Format**: MP4, 1080p, Face (Webcam Picture-in-Picture) + Screen Recording
-- **Duration**: ~7 Minutes
-- **Video Link**: [Watch Full Project Walkthrough & Live Demo on Google Drive / YouTube](#) *(Paste your Google Drive or unlisted YouTube link here)*
+<p align="center">
+  An end-to-end Computer Vision pipeline combining classical image processing techniques with deep learning-based face and object detection.
+</p>
 
 ---
 
-## 🛠️ Tools & Frameworks
-| Category | Framework / Tool | Version | Purpose |
-|---|---|---|---|
-| **Core CV** | OpenCV (`cv2`, `opencv-contrib-python`) | `5.0.0.93` | Classical image processing, I/O, YuNet face detector |
-| **Deep Learning** | Ultralytics YOLOv8 (`ultralytics`) | `8.4.191` | Real-time multi-class object detection (COCO 80 classes) |
-| **Tensor Backend** | PyTorch (`torch`, `torchvision`) | `2.14.1` | Neural network runtime for YOLOv8 |
-| **Numerical** | NumPy (`numpy`) | `2.2.6` | Array manipulation, structuring element kernels, masking |
-| **Visualization** | Matplotlib (`matplotlib`) | `3.8.4` | Inline plotting, histogram analysis, evaluation tables |
-| **Notebook Runtime** | Jupyter / nbconvert | Python 3.10 | Interactive execution, documentation, and HTML export |
+## Overview
 
----
+This project demonstrates an integrated Computer Vision system that combines traditional image processing techniques with modern deep learning-based detection models.
 
-## 📦 Data & Pretrained Model Sources
-1. **Custom Realistic Image Dataset**:
-   - `texture_surface.jpg`: High-resolution photograph of a textured surface used for Otsu binarization and morphological structuring element experiments.
-   - `indoor_desk.jpg`: Workplace desk photo containing multiple everyday objects (keyboard, mouse, TV/monitor, chair, potted plant, vase).
-   - `fruits.jpg`: Vibrant multi-color object image used for 3-channel BGR histogram analysis.
-   - `portrait_face.jpg`: Clear front-facing real portrait photograph for YuNet face detection and privacy blurring.
-   - `profile_face.jpg`: Real human face in severe side-profile orientation to test angular robustness.
-   - `faces/face_sunglasses.png`: Photograph of an individual wearing sunglasses to evaluate partial facial occlusion handling.
-   - `group_people.jpg`: Real multi-person indoor setting used for multi-face detection, NMS duplicate suppression, and the integrated pipeline.
-2. **YuNet Face Detector Weights**:
-   - `face_detection_yunet_2023mar.onnx` from OpenCV Zoo: [https://github.com/opencv/opencv_zoo](https://github.com/opencv/opencv_zoo)
-3. **YOLOv8 Pretrained Weights**:
-   - `yolov8n.pt` from Ultralytics Releases: [https://github.com/ultralytics/assets/releases](https://github.com/ultralytics/assets/releases) (Pre-trained on COCO dataset, 80 classes).
+The pipeline starts with image preprocessing techniques such as morphological operations, bitwise operations, histogram analysis, and brightness and contrast adjustment. It then applies YuNet for face detection and YOLOv8-Nano for multi-class object detection.
 
----
+In the final stage, both detection models are integrated into a unified pipeline to perform face and object detection on the same camera stream.
 
-## ⚙️ Environment Setup & Installation
+The project also explores image noise removal, facial landmark localization, privacy-preserving face blurring, detection threshold optimization, and real-time performance benchmarking.
 
-```bash
-# 1. Clone repository (do NOT push until approved)
-git clone <your-repo-url>
-cd CV_PR3
+## Project Objectives
 
-# 2. Install dependencies via requirements.txt
-pip install -r requirements.txt
+- Understand classical image processing techniques using OpenCV.
+- Implement erosion, dilation, opening, and closing.
+- Apply bitwise operations for image masking and region extraction.
+- Analyze grayscale and color image histograms.
+- Improve image brightness and contrast.
+- Implement face detection using the YuNet ONNX model.
+- Detect facial landmarks and confidence scores.
+- Apply Gaussian blur for face anonymization.
+- Implement object detection using YOLOv8-Nano.
+- Experiment with confidence and IoU thresholds.
+- Build a unified face and object detection pipeline.
+- Compare detection performance using FPS benchmarking.
 
-# 3. Launch Jupyter Notebook
-jupyter notebook CV_PR3.ipynb
+## Technology Stack
+
+| Category | Technology | Purpose |
+|---|---|---|
+| Programming Language | Python | Core implementation |
+| Computer Vision | OpenCV 5.0.0 | Image processing and face detection |
+| Deep Learning | YOLOv8-Nano | Multi-class object detection |
+| Face Detection | YuNet | Face localization and landmarks |
+| Numerical Computing | NumPy | Image arrays and matrix operations |
+| Data Analysis | Pandas | Results comparison |
+| Visualization | Matplotlib | Images, histograms and charts |
+| Model Format | ONNX | YuNet pretrained model |
+| Deep Learning Framework | PyTorch | YOLO inference backend |
+| Development Environment | Jupyter Notebook | Interactive implementation |
+
+## Project Architecture
+
+The complete system is divided into five major tasks.
+
+```text
+                 IMAGE / VIDEO INPUT
+                         |
+                         v
+              CLASSICAL IMAGE PROCESSING
+                         |
+          +--------------+--------------+
+          |              |              |
+          v              v              v
+      Morphology      Bitwise       Histograms
+          |          Operations    and Enhancement
+          |              |              |
+          +--------------+--------------+
+                         |
+                         v
+                 FACE DETECTION
+                       YuNet
+                         |
+                         v
+                 Facial Landmarks
+                 Bounding Boxes
+                         |
+                         v
+                OBJECT DETECTION
+                    YOLOv8n
+                         |
+                         v
+                Object Classification
+                 Bounding Boxes
+                         |
+                         v
+                INTEGRATED PIPELINE
+                         |
+                         v
+                FPS BENCHMARKING
+                         |
+                         v
+                 FINAL RESULTS
 ```
 
----
+## Task 1: Image Processing & Morphological Operations
 
-## 📚 Detailed Topic Breakdown & Visual Results
+This task explores fundamental image processing operations using OpenCV.
 
-### Task 1: Morphological Operations (Dilation, Erosion, Opening, Closing)
-- **Description**: Applies non-linear neighborhood operations using structuring elements to clean binary foreground masks. Erosion shrinks white regions and strips isolated noise, while dilation expands regions to bridge micro-gaps.
-- **Key Finding**: Opening (erosion $\rightarrow$ dilation) removes salt noise without modifying large object geometry; closing (dilation $\rightarrow$ erosion) bridges pinholes and cracks. A $5 \times 5$ elliptical structuring element provides the optimal balance between noise elimination and edge fidelity.
+### Implementations
 
-![Morphological Operations Grid](plots/morphology_grid.png)
-*Figure 1: Morphological operations (Erosion, Dilation, Opening, Closing) applied to binarized textured surface using a 5x5 rectangular structuring element.*
+- Image loading and visualization.
+- Grayscale image conversion.
+- Binary thresholding.
+- Erosion.
+- Dilation.
+- Morphological opening.
+- Morphological closing.
+- Salt-and-pepper noise generation.
+- Kernel shape and size comparison.
 
----
+### Kernel Comparison
 
-### Task 2: Bitwise Logic & Histogram Diagnostics
-- **Description**: Implements Boolean pixel operators (AND, OR, XOR, NOT) for precise region-of-interest (ROI) isolation and non-destructive logo compositing. Evaluates grayscale and multi-channel BGR histograms under controlled brightness ($\beta$) and contrast ($\alpha$) scaling.
-- **Key Finding**: Contrast gain ($\alpha$) stretches or compresses the histogram around its mean, whereas brightness bias ($\beta$) shifts the distribution horizontally. Analyzing histogram saturation prevents feeding under/over-exposed frames to deep learning models.
+The following structuring element shapes and sizes are evaluated:
 
-![Histogram and Contrast Diagnostics](plots/histogram_comparison.png)
-*Figure 2: Grayscale and color brightness/contrast modulation ($g = \alpha f + \beta$) on workplace scene and corresponding intensity histogram distributions.*
+| Kernel Shape | Kernel Sizes |
+|---|---|
+| RECT | 3×3, 5×5, 9×9 |
+| ELLIPSE | 3×3, 5×5, 9×9 |
+| CROSS | 3×3, 5×5, 9×9 |
 
----
+### Key Findings
 
-### Task 3: Real-Time Face Detection with YuNet
-- **Description**: Deploys OpenCV 5.0's official lightweight CNN-based face detector (`FaceDetectorYN`), extracting 2D bounding boxes and 5 facial landmark keypoints (eyes, nose, mouth corners) in a single pass. Includes webcam FPS profiling and an automated Gaussian-blur privacy anonymization filter.
-- **Key Finding**: YuNet achieves ~25 FPS on CPU for 800x450 frames. A score threshold of $0.50$ maximizes recall for security monitoring (capturing side profiles and occluded faces with sunglasses), while $0.85+$ ensures zero false alarms for automated biometric access.
+- Erosion reduces foreground regions and removes small bright noise.
+- Dilation expands foreground regions and fills small gaps.
+- Opening removes small foreground noise while preserving larger shapes.
+- Closing fills small holes and gaps within foreground regions.
 
-![Face Detection Comparison](plots/face_detection_comparison.png)
-*Figure 3: YuNet face detection and 5-point facial landmark predictions across diverse lighting, side-profile poses, sunglasses occlusion, and multi-person scenes.*
+A 5×5 elliptical kernel produced a useful balance between noise removal and preservation of object boundaries in the tested binary image.
 
----
+### Visualization
 
-### Task 4: Multi-Class Object Detection with YOLOv8
-- **Description**: Evaluates Ultralytics YOLOv8-Nano (`yolov8n.pt`) on static and live webcam streams across 80 COCO categories. Investigates Confidence and Non-Maximum Suppression (IoU) threshold trade-offs and tallies per-class detection distributions.
-- **Key Finding**: YOLOv8-Nano executes in ~60 ms (~16 FPS) on CPU for standard frames. Tuning IoU thresholds demonstrates that low IoU allows overlapping candidate proposals, while standard NMS ($IoU = 0.45$) merges duplicates cleanly.
+![Morphological Operations](plots/morphology_grid.png)
 
-![YOLOv8 Detections](plots/yolo_detections.png)
-*Figure 4: YOLOv8-Nano object detections showing predicted bounding boxes, class labels, and confidence probabilities on realistic workplace items.*
+![Opening Kernel Comparison](plots/opening_kernel_grid.png)
 
----
-
-### Task 5: Integrated Pipeline, Pre-cleaning & FPS Benchmarking
-- **Description**: Synthesizes all techniques into a unified dual-detector pipeline running YuNet (green boxes + landmarks) and YOLOv8 (red boxes + labels) on a single stream with morphological pre-filtering.
-- **Key Finding**: Classical morphological pre-cleaning effectively stabilizes detection counts on noisy camera feeds without latency penalty. The integrated dual-model pipeline maintains smooth real-time execution (~9–12 FPS on CPU for high-resolution frames).
-
-![FPS Throughput Comparison](plots/fps_comparison.png)
-*Figure 5: Real-time inference frame-rate benchmarking across 100 frames for YuNet alone, YOLOv8n alone, and the full unified dual pipeline.*
+![Closing Kernel Comparison](plots/closing_kernel_grid.png)
 
 ---
 
-## 📊 Comprehensive Cross-Technique Evaluation Matrix
+## Task 2: Bitwise Operations & Image Histograms
 
-![Results Comparison Table](plots/results_table.png)
-*Figure 6: Technical evaluation matrix comparing classical image processing versus deep learning detectors.*
+This task focuses on logical image manipulation and image intensity analysis.
 
-| Technique | Type | What It Detects | Lighting Robustness | Approx. FPS | Best Use Case |
-|---|---|---|---|---|---|
-| **Morphological Operations** | Classical CV | Noise, binary masks, small holes | Low (Threshold-dependent) | $> 500$ FPS | Fast low-cost pre-filtering & mask cleaning |
-| **Bitwise Operations & Histograms** | Classical CV | ROI masking, watermarks, pixel spread | Low (Sensitive to illumination shifts) | $> 450$ FPS | Sensor diagnostics, ROI extraction & logo overlay |
-| **YuNet Face Detector** | Deep Learning (CNN) | Human faces & 5-point landmarks | High (Trained in-the-wild) | ~25 FPS | Edge biometric check-in & automated privacy blurring |
-| **YOLOv8-Nano Detector** | Deep Learning (CNN) | 80 COCO common object classes | High (Invariant to clutter/lighting) | ~16 FPS | Smart retail analytics & general object tracking |
-| **Integrated Unified Pipeline** | Hybrid (Classical + DL) | Faces, landmarks, and 80 object classes | High (Multi-layered robustness) | ~9–12 FPS | Real-time multi-target smart surveillance & kiosks |
+### Bitwise Operations
+
+The following operations are implemented:
+
+| Operation | Function | Purpose |
+|---|---|---|
+| AND | `cv2.bitwise_and()` | Extract overlapping regions |
+| OR | `cv2.bitwise_or()` | Combine image regions |
+| XOR | `cv2.bitwise_xor()` | Identify different regions |
+| NOT | `cv2.bitwise_not()` | Invert pixel values |
+
+### Practical Applications
+
+- Circle and rectangle binary mask creation.
+- Region of Interest (ROI) extraction.
+- Circular masking on a workplace image.
+- Simple watermark overlay using bitwise OR.
+
+### Histogram Analysis
+
+The project evaluates:
+
+- Grayscale histogram.
+- Blue channel histogram.
+- Green channel histogram.
+- Red channel histogram.
+- Brightness adjustment.
+- Contrast adjustment.
+
+### Brightness and Contrast Transformation
+
+The following mathematical relationship is used:
+
+\[
+g(x,y)=\alpha f(x,y)+\beta
+\]
+
+Where:
+
+- `alpha` controls contrast.
+- `beta` controls brightness.
+- `f(x,y)` represents the original pixel value.
+- `g(x,y)` represents the adjusted pixel value.
+
+### Experimental Parameters
+
+| Configuration | Alpha | Beta |
+|---|---:|---:|
+| Original | 1.0 | 0 |
+| Bright / High Contrast | 1.5 | 30 |
+| Dark / Low Contrast | 0.7 | -30 |
+
+### Key Findings
+
+Histogram analysis helps understand the distribution of image intensities.
+
+A narrow histogram may indicate low contrast, while values concentrated near 0 or 255 may indicate shadow or highlight clipping.
+
+![Bitwise Operations](plots/bitwise_grid.png)
+
+![Histogram Comparison](plots/histogram_comparison.png)
+
+![Color Histograms](plots/colour_histograms.png)
 
 ---
 
-## 💡 Edge vs. Cloud Deployment Reflection
-- **Edge Deployment (e.g. Raspberry Pi 5 / NVIDIA Jetson Orin Nano)**: Maintain the lightweight hybrid architecture: use classical morphological opening for noise suppression, YuNet (`score_threshold = 0.55`), and `yolov8n` downsampled to 320x320 with INT8 quantization via TensorRT to sustain 25+ FPS.
-- **Cloud Server Deployment (AWS EC2 / GCP Tensor Instances)**: Upgrade `yolov8n` to `yolov8s` or `yolov8m` for higher mean Average Precision on small/distant objects, processing full $1080p$ streams with multi-stream GPU batching.
+## Task 3: Face Detection Using YuNet
+
+YuNet is used to identify human faces in static images and webcam frames.
+
+The model is integrated through OpenCV's `FaceDetectorYN` API.
+
+### Implementations
+
+- Load pretrained YuNet ONNX weights.
+- Detect faces in portrait images.
+- Detect faces in different poses.
+- Draw face bounding boxes.
+- Display five facial landmarks.
+- Display detection confidence scores.
+- Perform real-time webcam face detection.
+- Compare detection score thresholds.
+- Apply Gaussian blur for face privacy.
+
+### Facial Landmark Detection
+
+YuNet provides five facial landmark locations:
+
+1. Right eye.
+2. Left eye.
+3. Nose tip.
+4. Right mouth corner.
+5. Left mouth corner.
+
+### Test Scenarios
+
+The detector is evaluated on:
+
+- Front-facing portrait.
+- Side-profile face.
+- Face with sunglasses.
+- Group photograph.
+
+### Confidence Threshold Experiment
+
+| Score Threshold | Expected Behaviour |
+|---|---|
+| 0.50 | Accepts more candidate faces |
+| 0.70 | Balanced detection threshold |
+| 0.90 | More conservative face detection |
+
+A lower threshold may increase recall but can introduce false positives. A higher threshold may reduce false detections but can miss difficult faces.
+
+### Privacy Application
+
+Gaussian Blur is applied only to detected face regions while keeping the remaining image unchanged.
+
+### Key Findings
+
+YuNet provides a lightweight approach for face localization and facial landmark detection. Its performance depends on face orientation, image quality, lighting, and threshold configuration.
+
+![YuNet Face Detection](plots/face_detection_comparison.png)
+
+![Face Threshold Comparison](plots/face_threshold_comparison.png)
 
 ---
 
-## 📂 Project Repository Structure
-```
+## Task 4: Object Detection Using YOLOv8
+
+This task implements general object detection using the pretrained YOLOv8-Nano model.
+
+The model is trained on the COCO dataset and supports 80 object categories.
+
+### Implementations
+
+- Load pretrained YOLOv8-Nano weights.
+- Detect objects in static photographs.
+- Display bounding boxes.
+- Display object class labels.
+- Display detection confidence scores.
+- Perform webcam object detection.
+- Compare confidence thresholds.
+- Compare IoU thresholds.
+- Calculate Intersection over Union.
+- Generate per-class detection statistics.
+
+### Confidence Threshold Experiment
+
+| Confidence | Behaviour |
+|---|---|
+| 0.25 | Retains more candidate detections |
+| 0.50 | Applies a moderate confidence requirement |
+| 0.75 | Retains more confident predictions |
+
+### IoU Threshold Experiment
+
+The following IoU values are compared:
+
+`0.30`, `0.50`, `0.70`
+
+Intersection over Union (IoU) measures the overlap between two bounding boxes.
+
+\[
+IoU = \frac{\text{Area of Intersection}}{\text{Area of Union}}
+\]
+
+Non-Maximum Suppression (NMS) removes overlapping duplicate detections based on confidence and the selected IoU threshold.
+
+A lower IoU threshold applies more aggressive suppression, while a higher threshold can retain more overlapping boxes.
+
+### Per-Class Detection Analysis
+
+The notebook collects object detection counts across multiple sample photographs and generates a bar chart of detected COCO classes.
+
+### Key Findings
+
+YOLOv8-Nano provides a balance between inference speed and object detection capability.
+
+Its performance depends on image resolution, object size, lighting conditions, occlusion, and hardware resources.
+
+![YOLO Object Detection](plots/yolo_detections.png)
+
+![Confidence Threshold Comparison](plots/yolo_confidence_comparison.png)
+
+![IoU Threshold Comparison](plots/yolo_iou_comparison.png)
+
+![Per-Class Detection Summary](plots/yolo_class_summary.png)
+
+---
+
+## Task 5: Integrated Real-Time Computer Vision Pipeline
+
+The final task combines classical image processing, YuNet face detection, and YOLOv8 object detection.
+
+### Pipeline Features
+
+- Webcam frame acquisition.
+- Optional morphological preprocessing.
+- YuNet face detection.
+- YOLOv8 object detection.
+- Combined bounding box visualization.
+- Face landmarks and confidence scores.
+- Object class labels.
+- Real-time performance measurement.
+
+### Detection Visualization
+
+| Component | Annotation |
+|---|---|
+| YuNet | Green bounding boxes |
+| Facial Landmarks | Red landmark points |
+| YOLOv8 | Red object bounding boxes |
+| Object Labels | Class name and confidence |
+| Performance | FPS information |
+
+### Morphological Pre-Cleaning
+
+The notebook generates a noisy image and applies morphological opening to examine the effect of noise removal.
+
+It compares YOLO detection results before and after preprocessing.
+
+This experiment helps evaluate whether classical image preprocessing improves detection results. Morphological processing is optional because excessive preprocessing may remove useful visual information.
+
+### FPS Benchmarking
+
+Performance is measured over 100 repeated inference iterations using the same test frame.
+
+The following configurations are evaluated:
+
+1. YuNet face detection only.
+2. YOLOv8 object detection only.
+3. Combined YuNet and YOLOv8 pipeline.
+
+### Recorded Benchmark Results
+
+The following values are from the saved notebook execution:
+
+| Configuration | Measured FPS |
+|---|---:|
+| YuNet Only | 22.6 |
+| YOLOv8 Only | 16.4 |
+| Combined Pipeline | 9.3 |
+
+The combined pipeline runs slower because both detection models process the same frame.
+
+These measurements represent one execution environment. FPS may vary depending on hardware, camera resolution, and system load.
+
+![FPS Benchmark Comparison](plots/fps_comparison.png)
+
+![Final Comparison Table](plots/results_table.png)
+
+---
+
+## Dataset & Pretrained Models
+
+The project uses sample images for classical image processing, face detection, and object detection experiments.
+
+### Image Dataset
+
+Place the following images inside `data/images/`:
+
+| Image | Purpose |
+|---|---|
+| `texture_surface.jpg` | Grayscale processing and morphology |
+| `indoor_desk.jpg` | ROI extraction and object detection |
+| `fruits.jpg` | Color and grayscale histograms |
+| `portrait_face.jpg` | Frontal face detection and privacy blur |
+| `profile_face.jpg` | Side-profile face detection |
+| `group_people.jpg` | Multiple face and object detection |
+| `stuff.jpg` | YOLO per-class detection summary |
+| `faces/face_sunglasses.png` | Partially occluded face detection |
+
+### Pretrained Models
+
+**1. YuNet Face Detector**
+
+Model: `face_detection_yunet_2023mar.onnx`
+
+Source: [OpenCV Zoo](https://github.com/opencv/opencv_zoo/tree/main/models/face_detection_yunet)
+
+**2. YOLOv8-Nano**
+
+Model: `yolov8n.pt`
+
+Source: [Ultralytics Assets](https://github.com/ultralytics/assets/releases)
+
+Pretrained on the COCO dataset with 80 object categories.
+
+---
+
+## Project Structure
+
+```text
 CV_PR3/
-├── CV_PR3.ipynb            # Fully executed Jupyter Notebook with outputs
-├── CV_PR3.html             # Clean HTML export of the notebook
-├── README.md               # Complete project documentation with plots
-├── requirements.txt        # Exact dependency specifications
+│
+├── CV_PR3.ipynb
+├── CV_PR3.html
+├── README.md
+├── requirements.txt
+│
 ├── data/
-│   ├── images/             # Custom images (texture, desk, portrait, profile, etc.)
-│   └── models/             # Pretrained weights (face_detection_yunet, yolov8n)
-└── plots/                  # Generated high-resolution plots
+│   ├── images/
+│   │   ├── texture_surface.jpg
+│   │   ├── indoor_desk.jpg
+│   │   ├── fruits.jpg
+│   │   ├── portrait_face.jpg
+│   │   ├── profile_face.jpg
+│   │   ├── group_people.jpg
+│   │   ├── stuff.jpg
+│   │   └── faces/
+│   │       └── face_sunglasses.png
+│   │
+│   └── models/
+│       ├── face_detection_yunet_2023mar.onnx
+│       └── yolov8n.pt
+│
+└── plots/
     ├── morphology_grid.png
+    ├── opening_kernel_grid.png
+    ├── closing_kernel_grid.png
+    ├── bitwise_grid.png
+    ├── masked_overlay.png
+    ├── grayscale_histogram.png
+    ├── colour_histograms.png
     ├── histogram_comparison.png
     ├── face_detection_comparison.png
+    ├── face_threshold_comparison.png
     ├── yolo_detections.png
+    ├── yolo_confidence_comparison.png
+    ├── yolo_iou_comparison.png
+    ├── yolo_class_summary.png
     ├── fps_comparison.png
     └── results_table.png
 ```
 
+## Installation & Setup
+
+### 1. Clone the Repository
+
+```bash
+git clone <YOUR_GITHUB_REPOSITORY_URL>
+cd CV_PR3
+```
+
+### 2. Create a Virtual Environment
+
+```bash
+python -m venv .venv
+```
+
+Activate on Windows:
+
+```powershell
+.\.venv\Scripts\Activate.ps1
+```
+
+### 3. Install Dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+The required packages include:
+
+```bash
+pip install opencv-python numpy matplotlib pandas ultralytics jupyter
+```
+
+Use a compatible OpenCV installation that provides the `FaceDetectorYN_create` API. Avoid installing multiple conflicting OpenCV distributions in the same environment.
+
+### 4. Download Model Weights
+
+Place the YuNet ONNX model and YOLOv8-Nano weights inside:
+
+```text
+data/models/
+```
+
+Use the official model sources listed above.
+
+### 5. Launch Jupyter Notebook
+
+```bash
+jupyter notebook CV_PR3.ipynb
+```
+
+Run the notebook cells sequentially.
+
+Ensure that all image files and pretrained models are available at the specified paths before executing the corresponding tasks.
+
+### 6. Run Webcam Demonstrations
+
+Execute the following functions locally:
+
+**YuNet Face Detection**
+
+```python
+open_yunet_webcam()
+```
+
+**YOLOv8 Object Detection**
+
+```python
+open_yolo_webcam()
+```
+
+**Integrated Face & Object Detection**
+
+```python
+open_integrated_webcam()
+```
+
+Press `q` to stop a live webcam demonstration.
+
 ---
-*Red & White Skill Education · Deep Learning PR 3 · All Rights Reserved.*
+
+## Applications
+
+The techniques implemented in this project can be applied to:
+
+- Smart surveillance systems.
+- Workplace monitoring.
+- Face localization and privacy filtering.
+- Traffic and vehicle detection.
+- Retail object analytics.
+- Industrial image inspection.
+- Real-time video analytics.
+- Image enhancement and preprocessing.
+
+## Limitations
+
+- Face detection accuracy depends on lighting, pose, and visibility.
+- YuNet may miss heavily occluded or very small faces.
+- YOLOv8-Nano may struggle with small or partially hidden objects.
+- Detection thresholds influence false positives and missed detections.
+- Morphological preprocessing can remove useful image details if applied incorrectly.
+- Combined detection requires more computation than running either detector independently.
+- Webcam FPS varies across different hardware configurations.
+
+## Future Improvements
+
+- Add object tracking using ByteTrack or DeepSORT.
+- Implement video file processing.
+- Add real-time detection statistics.
+- Compare YOLOv8-Nano with larger YOLO models.
+- Optimize inference using GPU acceleration.
+- Build an interactive Streamlit dashboard.
+- Integrate a FastAPI backend for deployment.
+- Add configurable detection parameters.
+
+## Conclusion
+
+This project demonstrates how classical Computer Vision and deep learning techniques can work together in a unified detection system.
+
+Morphological operations, bitwise manipulation, and histogram analysis provide a foundation for image preprocessing and enhancement. YuNet adds lightweight face detection and landmark localization, while YOLOv8-Nano provides multi-class object detection.
+
+The integrated pipeline combines both detectors and evaluates their computational performance through FPS benchmarking.
+
+Overall, the project provides practical implementation experience in **image processing, OpenCV, deep learning, face detection, object detection, and real-time Computer Vision pipeline development**.
+
+---
+
+## Tools & Technologies
+
+Python · OpenCV · NumPy · Pandas · Matplotlib · YuNet · ONNX · YOLOv8 · PyTorch · Jupyter Notebook
