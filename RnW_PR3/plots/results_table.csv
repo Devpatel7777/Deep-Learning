@@ -1,0 +1,6 @@
+Method,Type,Detects,FPS
+Morphology,Classical,Noise/Holes,> 500
+Bitwise,Classical,Masks/Spread,> 450
+YuNet Face,Deep Learning,Faces,~22
+YOLOv8,Deep Learning,Objects,~16
+Combined,Hybrid,Both,~9
